@@ -2,7 +2,8 @@ package com.ejemplo.demo_mapstruct.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ejemplo.demo_mapstruct.dto.PersonaDTO;
+import com.ejemplo.demo_mapstruct.dto.PersonaRequestDTO;
+import com.ejemplo.demo_mapstruct.dto.PersonaResponseDTO;
 import com.ejemplo.demo_mapstruct.entity.Persona;
 import com.ejemplo.demo_mapstruct.mapper.PersonaMapper;
 import com.ejemplo.demo_mapstruct.repository.PersonaRepository;
@@ -17,7 +18,7 @@ public class PersonaService {
         this.mapper = mapper;
     }
 
-    public PersonaDTO save(PersonaDTO dto) {
+    public PersonaResponseDTO save(PersonaRequestDTO dto) {
 
         Persona persona = mapper.toEntity(dto);
 
@@ -26,4 +27,10 @@ public class PersonaService {
         return mapper.toDTO(saved);
 
     }
+
+    public PersonaResponseDTO findById(Long id) {
+    Persona persona = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+    return mapper.toDTO(persona);
+}
 }
